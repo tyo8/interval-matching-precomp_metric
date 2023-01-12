@@ -2,7 +2,7 @@
 
 ## Outline 
 
-This repository contains the code for the Persistent Cohomological Cycle Matching approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). 
+This repository is adapted from the code for the Persistent Cohomological Cycle Matching approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). 
 
 Persistent homology, one of the cornerstones of topological data analysis, studies the lifespan of the topological features in a nested sequence of topological spaces (i.e. a filtration) by tracking the changes in its homology groups. One of its main outcomes is the *persistence barcode* (or simply, *barcode*)---a canonical summary of the aforementioned lifespans as a set of half-open intervals. A natural question is whether it is possible to compare the barcodes obtained from different filtrations, which would, for instance, provide a correspondence between some of their intervals. Cycle matching [1] is one such way of obtaining an identification between the intervals in two different barcodes. 
 
