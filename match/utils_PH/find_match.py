@@ -2,7 +2,7 @@ import compute
 
 def duplicates_list(values) : # duplicates_list([1,2,3,1,2,2]) = [1, 2, 2]
     seen = set()
-    dupes = [val for val in values if val in seen or seen.add(x)]
+    dupes = [val for val in values if val in seen or seen.add(val)]
     return dupes
 
 def find_occurences_list(values, val) :
@@ -16,20 +16,30 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
     Affinity score is automatically set to A but can be changed. Optiona outputs to check if the filtrations provided are Morse and if 
     there are image-bars sharing death times in the barcodes.'''
 
-    matched_X_Y = []
-    affinity_X_Y = []
+    # initialize the match and affinity variables as dictionaries indexed by the indices of bars_X
+    matched_X_Y = {idx: [] for idx, bar in enumerate(bars_X)}
+    affinity_X_Y = {idx: [] for idx, bar in enumerate(bars_X)}
+    verbose_matches = [{
+        "barX_orig": bar,
+        "barX": [],
+        "barY": [],
+        "deathZ": [],
+        "matched":[],
+        "affinity":[0]} for bar in bars_X]
 
     # consider all image-bars
     births_X_Z = [bar[0] for bar in bars_X_Z[dim]]
     births_Y_Z = [bar[0] for bar in bars_Y_Z[dim]]
     deaths_X_Z = [bar[1] for bar in bars_X_Z[dim]]
     deaths_Y_Z = [bar[1] for bar in bars_Y_Z[dim]]
+    ## unzip
 
     # consider normal bars
     births_X = [bar[0] for bar in bars_X[dim]]
     births_Y = [bar[0] for bar in bars_Y[dim]]
     deaths_X = [bar[1] for bar in bars_X[dim]]
     deaths_Y = [bar[1] for bar in bars_Y[dim]]
+    ## unzip
 
     if check_Morse :
         # adding noise to your point clouds does not solve the following exceptions.
@@ -86,9 +96,16 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
             a = births_X.index(birth_X) # unique 
             b = births_Y.index(birth_Y) # unique 
 
-            matched_X_Y += [[a, b]]
+            matched_X_Y[a].append(b)
+
+            if 'b':
+                affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
+            else:
+                affinity_val = -1
+
             affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
-            affinity_X_Y += [affinity_val]
+            affinity_X_Y[a].append(affinity_val)
+            verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
         else:
             # the way we are computing persistent homology, the indices of the 
             # persistent homology of Y can be compared with the indices in the
@@ -100,8 +117,11 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                 if pos_index_X == pos_index_XZ:
                     a = oX
             if 'a' not in locals():
-                print(f"\nWARNING: guessed match index \'a\' in the common death case in dimension {dim} at oXZ={oXZ}")
-                a = _guess_match_idx(indices_X, indices_X_Z, dim, Occ_X, oXZ)
+                print("oXZ = " + str(oXZ))
+                print("Occ_X = " + str(Occ_Xz))
+                print("pos_index_X = " + str(pos_index_X))
+                print("pos_index_XZ = " + str(pos_index_XZ))
+                raise Exception("birth index 'a' in X homology is unset -- this should be impossible.")
 
             for oY in Occ_Y:
                 pos_index_Y = indices_Y[dim][oY][0]
@@ -109,12 +129,19 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                 if pos_index_Y == pos_index_YZ:
                     b = oY
             if 'b' not in locals():
-                print(f"\nWARNING: guessed match index \'b\' in the common death case in dimension {dim} at oYZ={oYZ}")
-                b = _guess_match_idx(indices_Y, indices_Y_Z, dim, Occ_Y, oYZ)
+                print(f"\nWARNING: match index \'b\' unset in dimension {dim} at oYZ={oYZ}")
+                b = ''
 
-            matched_X_Y += [[a, b]]
+            matched_X_Y[a].append(b)
+
+            if 'b':
+                affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
+            else:
+                affinity_val = -1
+
             affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
-            affinity_X_Y += [affinity_val]
+            affinity_X_Y[a].append(affinity_val)
+            verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
 
     # Second case: ambiguous matching
 
@@ -141,9 +168,16 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                     if len(Occ_X) == 1 and len(Occ_Y) == 1: # if there are no ambiguous births
                         a = births_X.index(birth_X) # unique 
                         b = births_Y.index(birth_Y) # unique 
-                        matched_X_Y += [[a, b]]
+                        matched_X_Y[a].append(b)
+
+                        if 'b':
+                            affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
+                        else:
+                            affinity_val = -1
+
                         affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
-                        affinity_X_Y += [affinity_val]
+                        affinity_X_Y[a].append(affinity_val)
+                        verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
                     else:
                         # the way we are computing persistent homology, the indices of the 
                         # persistent homology of Y can be compared with the indices in the
@@ -154,8 +188,11 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                             if pos_index_X == pos_index_XZ:
                                 a = oX
                         if 'a' not in locals():
-                            print(f"\nWARNING: guessed match index \'a\' in the ambiguous death case in dimension {dim} at oXZ={oXZ}")
-                            a = _guess_match_idx(indices_X, indices_X_Z, dim, Occ_X, oXZ)
+                            print("oXZ = " + str(oXZ))
+                            print("Occ_X = " + str(Occ_Xz))
+                            print("pos_index_X = " + str(pos_index_X))
+                            print("pos_index_XZ = " + str(pos_index_XZ))
+                            raise Exception("birth index 'a' in X homology is unset -- this should be impossible.")
 
                         for oY in Occ_Y:
                             pos_index_Y = indices_Y[dim][oY][0]
@@ -163,30 +200,32 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                             if pos_index_Y == pos_index_YZ:
                                 b = oY
                         if 'b' not in locals():
-                            print(f"\nWARNING: guessed match index \'b\' in the ambiguous death case in dimension {dim} at oYZ={oYZ}")
-                            b = _guess_match_idx(indices_Y, indices_Y_Z, dim, Occ_Y, oYZ)
+                            print(f"\nWARNING: match index \'b\' unset in dimension {dim} at oYZ={oYZ}")
+                            b = ''
 
-                        matched_X_Y += [[a, b]]
-                        affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
-                        affinity_X_Y += [affinity_val]
+                        matched_X_Y[a].append(b)
 
-    return matched_X_Y, affinity_X_Y
+                        if 'b':
+                            affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
+                        else:
+                            affinity_val = -1
 
-def _guess_match_idx(idx, idxZ, dim, Occ, oZ):
-    def _check(guess):
-        pos_idx = idx[dim][guess][0]
-        pos_idxZ = idxZ[dim][oZ][0]
-        diff = abs(pos_idx - pos_idxZ)
-        return diff
+                        affinity_X_Y[a].append(affinity_val)
+                        verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
 
-    best_guess = Occ[0]
-    lowest_diff = _check(Occ[0])
-    for guess in Occ:
-        if _check(guess) < lowest_diff:
-            lowest_diff = _check(guess)
-            best_guess = guess
 
-    print("lowest index difference = " + str(lowest_diff))
-    print("best guess match index = " + str(best_guess))
-    print('')
-    return best_guess
+    return matched_X_Y, affinity_X_Y, verbose_matches
+
+def _update_verbose(verbose_match_list, birth_X, deaths_X, deathZ, birth_Y, deaths_Y, a, b, aff_val):
+    entry = verbose_match_list[a]
+
+    entry["barX"].append([birth_X, deaths_X[a]])
+    entry["barY"].append([birth_Y, deaths_Y[b]])
+    entry["deathZ"].append(deathZ)
+    entry["matched"].append([a,b])
+
+    if entry["affinity"] == [0]:
+        entry["affinity"] = []
+    entry["affinity"].append(aff_val)
+
+    return verbose_match_list
