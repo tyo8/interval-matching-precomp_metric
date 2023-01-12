@@ -568,3 +568,109 @@ def plot_cross_prevalence(list_X, list_cycreps, list_scores, **kwargs) :
         plot_cross_prevalence_2D(list_X, list_cycreps, list_scores, **kwargs)
     else :
         raise ValueError("pts should be collection of 2D or 3D points.")
+
+
+# PLOT MATCHING CYCLE REPRESENTATIVES (attached to functions in matching.py/mult_matches.py)
+
+def argsort(seq, option = 'desc'):
+    # what permutation to apply to indices in order to sort seq in ascending / descending order
+    if option == 'asc' :
+        return sorted(range(len(seq)), reverse = False, key= seq.__getitem__)
+    elif option == 'desc' :
+        return sorted(range(len(seq)), reverse = True, key= seq.__getitem__)
+
+def show_matches(X, Y, matched_X_Y, affinity_X_Y, tight_reps_X, tight_reps_Y, dim = 1,
+                 zoom_factor = 3, show_together = False) :
+    ''' This function displays the matches between two point-clouds X and Y after performing the matching and obtaining
+    the lists: matched_X_Y and affinity_X_Y. Also needed the corresponding lists of tight_reps.'''
+
+    Z = np.vstack((X,Y))
+    arg = argsort(affinity_X_Y)
+    affinity_X_Y = np.array(affinity_X_Y)[arg]
+    matched_X_Y = np.array(matched_X_Y)[arg]
+
+    if len(matched_X_Y) == 1 or not show_together :
+        for match, aff in zip(matched_X_Y, affinity_X_Y) :
+            print('new match')
+            a,b = match
+
+            if X.shape[1] == 2 :
+                fig, axes = plt.subplots(1,2, figsize = (8,5), sharex = True, sharey = True)
+                axes[0].scatter(Y[:,0], Y[:,1], alpha = .2)
+                plot_cycreps(Z, [tight_reps_X[dim][a]], pts_to_show = X, ax = axes[0])
+                axes[1].scatter(X[:,0], X[:,1], alpha = .2)
+                plot_cycreps(Z, [tight_reps_Y[dim][b]], pts_to_show = Y, ax = axes[1])
+                for ax in axes:
+                    ax.set_aspect('equal')
+                axes[0].set_xlabel('X')
+                axes[1].set_xlabel('Y')
+                #plt.text(2, 5, 'a match with affinity {}'.format(aff))
+                fig.suptitle('a match with affinity {}'.format(aff), y=0.78)
+                plt.show()
+
+            if X.shape[1] == 3 :
+                fig = plt.figure(figsize=plt.figaspect(1.)*zoom_factor) # figaspect(0.5)*1.5
+                fig.suptitle('a match with affinity {}'.format(aff), y=0.7)
+                ax = fig.add_subplot(1,2,1, projection='3d')
+                ax.scatter(Y[:,0],Y[:,1],Y[:,2], alpha = .1)
+                plot_cycreps(Z, [tight_reps_X[dim][a]], pts_to_show = X, ax = ax)
+                ax.set_title('X')
+
+                ax = fig.add_subplot(1,2,2, projection='3d')
+                ax.scatter(X[:,0],X[:,1],X[:,2], alpha = .1) #, c = '#729dcf', s = 50, edgecolors='black')
+                plot_cycreps(Z, [tight_reps_Y[dim][b]], pts_to_show = Y, ax = ax)
+                ax.set_title('Y')
+                plt.show()
+
+    else : # show_together :
+
+        if X.shape[1] == 2 :
+            fig, axes = plt.subplots(len(matched_X_Y), 2, figsize = (10, 6 * len(matched_X_Y)),
+                                                                     sharex = True, sharey = True)
+            # will be buggy if len(matched_X_Y) == 1
+            i = 0
+            for match, aff in zip(matched_X_Y, affinity_X_Y) :
+                a,b = match
+
+                axes[i,0].scatter(Y[:,0], Y[:,1], alpha = .2)
+                plot_cycreps(Z, [tight_reps_X[dim][a]], pts_to_show = X, ax = axes[i,0])
+                axes[i,1].scatter(X[:,0], X[:,1], alpha = .2)
+                plot_cycreps(Z, [tight_reps_Y[dim][b]],  pts_to_show = Y, ax = axes[i,1])
+
+                axes[i,0].set_xlabel('X')
+                axes[i,0].set_title('aff =')
+                axes[i,1].set_title(aff)
+                axes[i,1].set_xlabel('Y')
+                #plt.text(2, 5, 'a match with affinity {}'.format(aff))
+                #fig.suptitle('a match with affinity {}'.format(aff), y=0.78)
+            for ax in axes.ravel():
+                ax.set_aspect('equal')
+            plt.show()
+
+
+        if X.shape[1] == 3 :
+            fig, axes = plt.subplots(len(matched_X_Y), 2, subplot_kw={'projection': '3d'},
+                                    figsize = (10, 4.5 * len(matched_X_Y)))
+            #fig = plt.figure(figsize=plt.figaspect(1.)*zoom_factor) # figaspect(0.5)*1.5
+            #fig.suptitle('all matches', y=0.7)
+
+            i = 0
+            for match, aff in zip(matched_X_Y, affinity_X_Y) :
+                a,b = match
+                #print('a,b=',a,b)
+                ax = axes[i,0]
+                #ax = fig.add_subplot(i,2,1, projection='3d')
+                ax.scatter(Y[:,0],Y[:,1],Y[:,2], alpha = .1)
+                plot_cycreps(Z, [tight_reps_X[dim][a]], pts_to_show = X, ax = ax)
+                ax.set_title('X   aff = {}'.format(aff))
+
+                ax = axes[i,1]
+                #ax = fig.add_subplot(i,2,2, projection='3d')
+                ax.scatter(X[:,0],X[:,1],X[:,2], alpha = .1) #, c = '#729dcf', s = 50, edgecolors='black')
+                plot_cycreps(Z, [tight_reps_Y[dim][b]], pts_to_show = Y, ax = ax)
+                ax.set_title('Y  a = {} b = {}'.format(a,b))
+
+                i += 1
+
+            plt.tight_layout()
+            plt.show()
