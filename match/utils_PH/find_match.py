@@ -1,4 +1,5 @@
 import compute
+import numpy as np
 
 def duplicates_list(values) : # duplicates_list([1,2,3,1,2,2]) = [1, 2, 2]
     seen = set()
@@ -17,22 +18,15 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
     there are image-bars sharing death times in the barcodes.'''
 
     # initialize the match and affinity variables as dictionaries indexed by the indices of bars_XZ
-    matched_X_Y = {idx: [] for idx, bar in enumerate(bars_X_Z[dim])}
-    affinity_X_Y = {idx: [] for idx, bar in enumerate(bars_X_Z[dim])}
+    matched_X_Y = {idx: [] for idx, bar in enumerate(bars_X[dim])}
+    affinity_X_Y = {idx: [] for idx, bar in enumerate(bars_X[dim])}
     verbose_matches = [{
         "dim":dim,
-        "barXZ": bar,
-        "barX": [],
+        "barX": bar,
         "barY": [],
         "deathZ": [],
-        "matched":[],
-        "affinity":[0]} for bar in bars_X_Z[dim]]
-    ### debug code ###
-    print("length of bars_X_Z: ", len(bars_X_Z))
-    print("length of (intialized) match list: ", len(matched_X_Y))
-    print("length of (intialized) affinity list: ", len(affinity_X_Y))
-    print("length of (intialized) verbose list: ", len(verbose_matches))
-    ### debug code ###
+        "matchedXY":[],
+        "affinity":[0]} for bar in bars_X[dim]]
 
     # consider all image-bars
     births_X_Z = [bar[0] for bar in bars_X_Z[dim]]
@@ -105,7 +99,7 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
 
             matched_X_Y[a].append(b)
 
-            if 'b':
+            if b:
                 affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
             else:
                 affinity_val = -1
@@ -141,7 +135,7 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
 
             matched_X_Y[a].append(b)
 
-            if 'b':
+            if b:
                 affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
             else:
                 affinity_val = -1
@@ -177,7 +171,7 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                         b = births_Y.index(birth_Y) # unique 
                         matched_X_Y[a].append(b)
 
-                        if 'b':
+                        if b:
                             affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
                         else:
                             affinity_val = -1
@@ -212,10 +206,11 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
 
                         matched_X_Y[a].append(b)
 
-                        if 'b':
+                        if b:
                             affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
                         else:
                             affinity_val = -1
+                            b = 0 
 
                         affinity_X_Y[a].append(affinity_val)
                         verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
@@ -226,10 +221,12 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
 def _update_verbose(verbose_match_list, birth_X, deaths_X, deathZ, birth_Y, deaths_Y, a, b, aff_val):
     entry = verbose_match_list[a]
 
-    entry["barX"].append([birth_X, deaths_X[a]])
+    barX_new = [birth_X, deaths_X[a]]
+    assert np.allclose(np.asarray(entry["barX"]), np.asarray(barX_new)), "Error: conflict between barX entries " + str(entry["barX"]) + " and " + str(barX_new)
+
     entry["barY"].append([birth_Y, deaths_Y[b]])
     entry["deathZ"].append(deathZ)
-    entry["matched"].append([a,b])
+    entry["matchedXY"].append([a,b])
 
     if entry["affinity"] == [0]:
         entry["affinity"] = []
