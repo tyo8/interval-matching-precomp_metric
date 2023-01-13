@@ -9,7 +9,7 @@ from generate_subindex import tag_to_subidx
 # the function below produces fixed results that will behave mildly inconsistent across tags;
 # this is ok, because this function only exists to allow code to run smoothly on test data and is not present in any important analyses
 def reduce_subidx(subidx, N_new):
-    approx_prop = float(len(subidx))/max(float(subidx))
+    approx_prop = float(len(subidx))/max([float(i) for i in subidx])
     subidx_long = [idx for idx in subidx if idx < N_new]
 
     new_length = int(N_new*approx_prop)
@@ -45,7 +45,7 @@ if __name__=="__main__":
 
     subidx = tag_to_subidx(args.tag)
 
-    if len(subidx) >= nb_x:
+    if len(subidx) >= nb_X:
         subidx = reduce_subidx(subidx,nb_X)
 
     dZ, dY = cmi._subsamp_dZ(dX, subidx)

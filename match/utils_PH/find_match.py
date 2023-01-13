@@ -103,8 +103,8 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                 affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
             else:
                 affinity_val = -1
+                b = 0
 
-            affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
             affinity_X_Y[a].append(affinity_val)
             verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
         else:
@@ -139,8 +139,8 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                 affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
             else:
                 affinity_val = -1
+                b = 0
 
-            affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
             affinity_X_Y[a].append(affinity_val)
             verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
 
@@ -175,8 +175,8 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
                             affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
                         else:
                             affinity_val = -1
+                            b = 0
 
-                        affinity_val = compute.affinity(birth_X, deaths_X[a], death, birth_Y, deaths_Y[b], affinity_method = affinity_method)
                         affinity_X_Y[a].append(affinity_val)
                         verbose_matches = _update_verbose(verbose_matches, birth_X, deaths_X, death, birth_Y, deaths_Y, a, b, affinity_val)
                     else:
