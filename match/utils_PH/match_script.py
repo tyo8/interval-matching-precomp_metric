@@ -45,8 +45,6 @@ def find_match_wrapper(
 
     return matched, affinity, verbose_matches
 
-
-
 def _pull_tag(phom_fpath):
     phom_fname = os.path.basename(phom_fpath).split('.')[0]
     tag = re.sub('phom[X-Z]?[X-Z]?_','',phom_fname)
@@ -73,7 +71,7 @@ def _write_out(var, varlabel, phom_fpath):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
-        description="Make and save image & subfiltration matrices and subsample matrices given distance matrix and subsample tag"
+        description="Given paths to rawtext saveouts of bootstraps to original and subsampled persistent homology, compute and save out cycle matches"
     )
     parser.add_argument(
         "-x", "--phomX_fname", type=str, help="filepath to X (fixed) persistent homology"

@@ -44,7 +44,7 @@ def _write_out(var, varlabel, phom_fpath):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
-        description="Make and save image & subfiltration matrices and subsample matrices given distance matrix and subsample tag"
+        description="Extract persistence bars, filtration(?) indices, and cycle representatives (when possible) from rawtext Ripser output"
     )
     parser.add_argument(
         "-x", "--phom_fname", type=str, help="filepath to distance matrix"
