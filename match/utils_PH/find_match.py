@@ -16,16 +16,23 @@ def find_match(bars_X, bars_X_Z, indices_X, indices_X_Z, bars_Y, bars_Y_Z, indic
     Affinity score is automatically set to A but can be changed. Optiona outputs to check if the filtrations provided are Morse and if 
     there are image-bars sharing death times in the barcodes.'''
 
-    # initialize the match and affinity variables as dictionaries indexed by the indices of bars_X
-    matched_X_Y = {idx: [] for idx, bar in enumerate(bars_X)}
-    affinity_X_Y = {idx: [] for idx, bar in enumerate(bars_X)}
+    # initialize the match and affinity variables as dictionaries indexed by the indices of bars_XZ
+    matched_X_Y = {idx: [] for idx, bar in enumerate(bars_X_Z[dim])}
+    affinity_X_Y = {idx: [] for idx, bar in enumerate(bars_X_Z[dim])}
     verbose_matches = [{
-        "barX_orig": bar,
+        "dim":dim,
+        "barXZ": bar,
         "barX": [],
         "barY": [],
         "deathZ": [],
         "matched":[],
-        "affinity":[0]} for bar in bars_X]
+        "affinity":[0]} for bar in bars_X_Z[dim]]
+    ### debug code ###
+    print("length of bars_X_Z: ", len(bars_X_Z))
+    print("length of (intialized) match list: ", len(matched_X_Y))
+    print("length of (intialized) affinity list: ", len(affinity_X_Y))
+    print("length of (intialized) verbose list: ", len(verbose_matches))
+    ### debug code ###
 
     # consider all image-bars
     births_X_Z = [bar[0] for bar in bars_X_Z[dim]]

@@ -36,14 +36,14 @@ def find_match_wrapper(
         assert idxXZ, 'Must supply idxXZ data when not in read mode'
         assert idxYZ, 'Must supply idxYZ data when not in read mode'
 
-    matched_XY, affinity_XY = find_match(
+    matched, affinity, verbose_matches = find_match(
         barsX, barsXZ, idxX, idxXZ,
         barsY, barsYZ, idxY, idxYZ,
         dim=dim, affinity_method=affinity_method, 
         check_Morse=check_Morse, check_ambiguous_deaths=check_ambiguous_deaths
             )
 
-    return matched_XY, affinity_XY
+    return matched, affinity, verbose_matches
 
 
 
@@ -110,7 +110,7 @@ if __name__=="__main__":
     phomXZ_fname = args.phomY_fname.replace('phomY','phomXZ')
     phomYZ_fname = args.phomY_fname.replace('phomY','phomYZ')
 
-    matched_XY, affinity_XY = find_match_wrapper(read=True,
+    matched, affinity, verbose_matches = find_match_wrapper(read=True,
             phomX_fname=args.phomX_fname, phomY_fname=args.phomY_fname, 
             phomXZ_fname=phomXZ_fname, phomYZ_fname=phomYZ_fname,
             dim=args.dim, affinity_method=args.affinity_method, 
@@ -119,6 +119,7 @@ if __name__=="__main__":
 
     print("Saving matching data to: ")
     tag = _pull_tag(args.phomY_fname)
-    dummy_filename = os.path.join(outdir,'phomXY_dim' + str(args.dim) + '_' + tag + '.txt')
-    _write_out(matched_XY, 'matched', dummy_filename)
-    _write_out(affinity_XY,'affinity',dummy_filename)
+    dummy_filename = os.path.join(outdir,'phom_dim' + str(args.dim) + '_' + tag + '.txt')
+    _write_out(matched, 'matched', dummy_filename)
+    _write_out(affinity,'affinity',dummy_filename)
+    _write_out(verbose_matches, 'verbose_match', dummy_filename)
