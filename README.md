@@ -4,20 +4,17 @@
 
 This repository is adapted from the code for the Persistent Cohomological Cycle Matching approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). 
 
-The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong) and credit remains with them.
+The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong) and credit remains with them. In this repository, they provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`). This branch of their initial repository streamlines and modularizes the authors' original code while also generalizing it to arbitrary (precomputed) distance metrics in the bootstrapping case. In addition, this branch provides additional utilities for cycle registration over data bootstraps.
 
 Persistent homology, one of the cornerstones of topological data analysis, studies the lifespan of the topological features in a nested sequence of topological spaces (i.e. a filtration) by tracking the changes in its homology groups. One of its main outcomes is the *persistence barcode* (or simply, *barcode*)---a canonical summary of the aforementioned lifespans as a set of half-open intervals. A natural question is whether it is possible to compare the barcodes obtained from different filtrations, which would, for instance, provide a correspondence between some of their intervals. Cycle matching [1] is one such way of obtaining an identification between the intervals in two different barcodes. 
 
-In this repository:
-1. we provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`), and
-2. we present a notebook to reproduce the applications in Section 3 of [the aforementioned paper](https://arxiv.org/abs/2209.15446) (see folder `applications`). 
 
 ### About C++
 
 C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
 
 ### About Python
-Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching (see folders `applications` and `match`). In this repository you can find python scripts and jupyter notebooks in python. Jupyter Notebook (formerly IPython Notebook) is a web-based interactive computational environment for creating notebook documents.
+Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching (see `match`). In this repository you can find python scripts and minimal test data.
 
 ## Preparations
 
@@ -47,10 +44,6 @@ We recommend installing Python and these libraries through [Anaconda](https://ww
 
 This repository is organised as follows.
 
-- `applications`: folder with the applications included on Section 3 of the paper
-	- `data`: folder featuring the datasets used for the examples on the paper. Note that some of the data we used required an institutional materials transfer agreement, so these data were not made available on this repository, and thus those examples are no reproducible.
-	- `applications.ipynb`: notebook to reproduce all experiments in the paper. 
-	- additional auxiliar scripts that are explained inside the notebook.
 - `match`: folder containing the main scripts of code. 
 	- `utils_data.py`: a Python script with sampling functions on images, circles, and nii files for surfaces and volumes
 	- `utils_PH.py`: a Python script with functions to compute persistence, image-persistence and cycle matching
