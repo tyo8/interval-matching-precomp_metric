@@ -4,7 +4,7 @@ import sys
 import argparse
 import numpy as np
 import extract
-sys.path.append("/scratch/tyoeasley/brain_representations/src_py")
+sys.path.append('/home/tyo/Documents/Brodie_Formica_Lab/beetle_network_comps_MLBS2023/src_py')
 from generate_subindex import tag_to_subidx
 
 
