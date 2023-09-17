@@ -6,15 +6,12 @@ This repository is adapted from the code for the Persistent Cohomological Cycle 
 
 The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong) and credit remains with them. In this repository, they provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`). This branch of their initial repository streamlines and modularizes the authors' original code while also generalizing it to arbitrary (precomputed) distance metrics in the bootstrapping case. In addition, this branch provides additional utilities for cycle registration over data bootstraps.
 
-Persistent homology, one of the cornerstones of topological data analysis, studies the lifespan of the topological features in a nested sequence of topological spaces (i.e. a filtration) by tracking the changes in its homology groups. One of its main outcomes is the *persistence barcode* (or simply, *barcode*)---a canonical summary of the aforementioned lifespans as a set of half-open intervals. A natural question is whether it is possible to compare the barcodes obtained from different filtrations, which would, for instance, provide a correspondence between some of their intervals. Cycle matching [1] is one such way of obtaining an identification between the intervals in two different barcodes. 
-
-
 ### About C++
 
 C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
 
 ### About Python
-Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching (see `match`). In this repository you can find python scripts and minimal test data.
+Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching: the 'match' directory defines a small cycle-matching python module.
 
 ## Preparations
 
