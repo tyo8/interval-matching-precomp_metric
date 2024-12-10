@@ -8,13 +8,13 @@ This repository is forked from the code for the "Persistent Cohomological Cycle 
 This fork of the original repository contributes new functionality and makes significant changes to the code structure.
 #### Functionality
 - generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see XX)
-- additional utilities for cycle registration over data bootstraps (see `create_ldm_images.py` and `generate_tag_subindex.py` in `match_utils`)
+- additional utilities for cycle registration over data bootstraps (see `create_ldm_images.py` and `generate_tag_subindex.py` in `utils_match`)
 - integration of cycle matching with statistical permutation testing (see XX)
 - new modules for computation of Wasserstein variants (see XX)
 - new visualizations of aggregated statistcs and distributions of bootstrapped cycles (see XX)
 - new toy examples (and corresponding manipulations) for validation and exploration (see XX)
 #### Structure
-- split cycle-matching implementation into modular structure (see `compute.py`, `extract.py`, and `match.py` in `match_utils`)
+- split cycle-matching implementation into modular structure (see `compute.py`, `extract.py`, and `match.py` in `utils_match`)
 - re-factored script-style code into Pythonic functinoal programming style
 - optimized for integration with high-performance computing (HPC) environment (including bash scripts with example calls)
 - re-organized directory structure
