@@ -58,7 +58,7 @@ ripser_rep_path="interval-matching_bootstrap/modified_ripser/ripser-tight-repres
 ripser_img_path="interval-matching_bootstrap/modified_ripser/ripser-image-persistence-simple/ripser-image"
 
 # Script to calcluate and save lower distance matrices of bootstrapped spaces
-make_ldm_images="${base_dir}/match/utils_PH/make_ldm_images.py"
+make_ldm_images="${base_dir}/utils_match/make_ldm_images.py"
 
 # Batch job submission script 
 ripser_scripter="${base_dir}/src_bash/submit_ripser_sbatch.sh"

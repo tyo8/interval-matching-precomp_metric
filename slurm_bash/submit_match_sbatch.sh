@@ -48,7 +48,7 @@ while getopts ":x:y:D:f:d:m:p:t:s:" opt; do
 done
 
 ### paths to code ###
-matching="${base_dir}/match/utils_PH/matching.py"
+matching="${base_dir}/utils_match/matching.py"
 
 echo "\
 \

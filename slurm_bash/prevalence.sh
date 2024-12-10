@@ -43,7 +43,7 @@ while getopts ":b:s:f:n:D:c:" opt; do
 done
 
 ### paths to code ###
-prev_scr="${base_dir}/match/utils_PH/prevalence.py"
+prev_scr="${base_dir}/utils_match/prevalence.py"
 
 distlists=$(cat ${distlists_fpath})
 
