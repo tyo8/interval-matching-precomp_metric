@@ -16,6 +16,9 @@ __pycache__/
 
 # Zip
 *.zip
+<<<<<<< HEAD
 
 # Clutter
 *deprecated*
+=======
+>>>>>>> refs/remotes/origin/main

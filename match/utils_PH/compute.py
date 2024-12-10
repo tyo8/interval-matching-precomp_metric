@@ -1,4 +1,8 @@
 from numpy import allclose
+<<<<<<< HEAD
+=======
+from send_cmd import send_cmd_linux as send
+>>>>>>> refs/remotes/origin/main
 
 #### paths to Ripser
 ripser_rep_path = '/scratch/tyoeasley/brain_representations/src_py/interval-matching-precomp_metric/modified_ripser/ripser-tight-representative-cycles/ripser-representatives'

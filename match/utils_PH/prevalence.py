@@ -5,11 +5,17 @@ import numpy as np
 
 def summarize_cycle_registration(verbose_match_list, n_resamps=1000):
     # the [-n_resamps:] indexing here is a hacky fix to a weird bug where at least one subject space embedding has *somehow* collated n_resamps+1 resamples.
+<<<<<<< HEAD
     # unsure how, but this is probably related to an edge case type of ambiguous match failure
     # affinity_array = np.array([ np.array(match["affinity"][-n_resamps:]) for match in verbose_match_list ])
     #       BUG RESOLVED: in 'matching.py', the 'affinity' dictionary entry should be initialized with empty list (like the rest), NOT [0]
 
     affinity_array = np.array([ match["affinity"] for match in verbose_match_list ])
+=======
+    # unsure how, but this is probably related to an edge case type of ambiguous match failure.
+    affinity_array = np.array([ np.array(match["affinity"][-n_resamps:]) for match in verbose_match_list ])
+    # affinity_array = np.array([ np.array(match["affinity"]) for match in verbose_match_list ])
+>>>>>>> refs/remotes/origin/main
     print(f"affinity array has shape {affinity_array.shape}")
 
     if (affinity_array < 0).any():
