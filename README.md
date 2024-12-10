@@ -2,9 +2,22 @@
 
 ## Outline 
 
-This repository is adapted from the code for the Persistent Cohomological Cycle Matching approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). 
+This repository is forked from the code for the "Persistent Cohomological Cycle Matching" approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong), performing cycle matching while incorporating the computational advantages given by Ripser [2] and Ripser-image [3].
 
-The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong) and credit remains with them. In this repository, they provide state-of-the-art code for performing cycle matching by using the computational advantage that Ripser [2] and Ripser-image [3] render (see folder `match`). This branch of their initial repository streamlines and modularizes the authors' original code while also generalizing it to arbitrary (precomputed) distance metrics in the bootstrapping case. In addition, this branch provides additional utilities for cycle registration over data bootstraps.
+### Fork Contributions
+This fork of the original repository contributes new functionality and makes significant changes to the code structure.
+#### Functionality
+- generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see XX)
+- additional utilities for cycle registration over data bootstraps (see `create_ldm_images.py` and `generate_tag_subindex.py` in `match_utils`)
+- integration of cycle matching with statistical permutation testing (see XX)
+- new modules for computation of Wasserstein variants (see XX)
+- new visualizations of aggregated statistcs and distributions of bootstrapped cycles (see XX)
+- new toy examples (and corresponding manipulations) for validation and exploration (see XX)
+#### Structure
+- split cycle-matching implementation into modular structure (see `compute.py`, `extract.py`, and `match.py` in `match_utils`)
+- re-factored script-style code into Pythonic functinoal programming style
+- optimized for integration with high-performance computing (HPC) environment (including bash scripts with example calls)
+- re-organized directory structure
 
 ### About C++
 
