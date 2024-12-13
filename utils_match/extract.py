@@ -1,5 +1,4 @@
 import re
-<<<<<<< HEAD
 import os
 import sys
 import argparse
@@ -44,10 +43,6 @@ def _write_out(var, varlabel, phom_fpath):
 
 
 
-=======
-import numpy as np
-
->>>>>>> refs/remotes/origin/main
 def xtr_bars_reps(out, do_hom0 = False, verbose = True, maxdim=2) :
     '''This function converts the output of compute_bars_tight_reps into list of bars and reps, organised by dimension'''
 
@@ -66,11 +61,7 @@ def xtr_bars_reps(out, do_hom0 = False, verbose = True, maxdim=2) :
         dim = 0
         i = line_PH[dim]+1
         while i < line_PH[dim + 1] :
-<<<<<<< HEAD
             bar, inf_flag = _get_bar(out[i],i)
-=======
-            bar, inf_flag = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
             bars[dim] += [ bar ]
             rep = _get_h0rep(out[i], inf_flag)
             reps[dim] += [ rep ]
@@ -91,11 +82,7 @@ def xtr_bars_reps(out, do_hom0 = False, verbose = True, maxdim=2) :
         while i < line_PH[dim + 1] :
             if i == len(out) - 1 : # trivial string ''
                 break
-<<<<<<< HEAD
             bar,_ = _get_bar(out[i],i)
-=======
-            bar,_ = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
             # all "finite" bars (no missing second endpoint)
             bars[dim] += [ bar ] 
             i += 1 # next line for tight reps
@@ -149,11 +136,7 @@ def xtr_bars_reps_indices(out, do_hom0 = False, verbose = False, maxdim=2):
             ### debug code ###
 
         while i < line_PH[dim + 1] :
-<<<<<<< HEAD
             bar, inf_flag = _get_bar(out[i],i)
-=======
-            bar, inf_flag = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
             bars[dim] += [ bar ]
             rep = _get_h0rep(out[i], inf_flag)
             reps[dim] += [ rep ]
@@ -175,11 +158,7 @@ def xtr_bars_reps_indices(out, do_hom0 = False, verbose = False, maxdim=2):
         while i < line_PH[dim + 1] :
             if i == len(out) - 1 : # trivial string ''
                 break
-<<<<<<< HEAD
             bar,_ = _get_bar(out[i],i)
-=======
-            bar,_ = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
             # all "finite" bars (no missing second endpoint)
             bars[dim] += [ bar ] 
 
@@ -213,11 +192,7 @@ def xtr_bars(out, do_hom0 = False, verbose = False, maxdim=2) :
         dim = 0
         i = line_PH[dim]+1
         while i < line_PH[dim + 1] :
-<<<<<<< HEAD
             bar,_ = _get_bar(out[i],i)
-=======
-            bar,_ = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
             bars[dim] += [ bar ]
             i+=1
 
@@ -236,11 +211,7 @@ def xtr_bars(out, do_hom0 = False, verbose = False, maxdim=2) :
     while i < line_PH[dim + 1] :
         if i == len(out) - 1 : # trivial string ''
             break
-<<<<<<< HEAD
         bar,_ = _get_bar(out[i],i)
-=======
-        bar,_ = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
         bars[dim] += [ bar ]
         i+=1
 
@@ -264,11 +235,7 @@ def xtr_bars_indices(out, do_hom0 = False, verbose = False, maxdim=2) :
         dim = 0
         i = line_PH[dim]+1
         while i < line_PH[dim + 1] :
-<<<<<<< HEAD
             bar,_ = _get_bar(out[i],i)
-=======
-            bar,_ = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
             bars[dim] += [ bar ]
             i+=1
 
@@ -288,11 +255,7 @@ def xtr_bars_indices(out, do_hom0 = False, verbose = False, maxdim=2) :
         #bars
         if i == len(out) - 1 : # trivial string ''
             break
-<<<<<<< HEAD
         bar,_ = _get_bar(out[i],i)
-=======
-        bar,_ = _get_bar(out[i])
->>>>>>> refs/remotes/origin/main
         bars[dim] += [ bar ]
         #indices
         indices[dim] += [ _get_idx(out[i]) ]
@@ -324,11 +287,7 @@ def _init_dimdict(maxdim):
 
 
 #  pulls birth-death interval from single line of text output
-<<<<<<< HEAD
 def _get_bar(line_out, line_num):
-=======
-def _get_bar(line_out):
->>>>>>> refs/remotes/origin/main
     inf_flag=False
 
     interval_pattern = r"\[(\d*.\d*),(\d*.\d*)\)"
@@ -337,12 +296,8 @@ def _get_bar(line_out):
         sci_note_pattern=r"\b-?[1-9](?:\.\d+)?[Ee][-+]?\d+\b"
         x = re.findall(sci_note_pattern, line_out)     # check for scientific notation
         if not x :
-<<<<<<< HEAD
             raise Warning(f"no intervals found in output line number {line_num}: \'{line_out}\'")
             bar = []
-=======
-            raise ValueError("no intervals found in output line " + line_out)
->>>>>>> refs/remotes/origin/main
         else:
             if len(x) > 1:
                 bar = [float(numstr) for numstr in x]
@@ -393,7 +348,6 @@ def _get_idx(line_out):
     idx = [int(z.group(1)), int(z.group(2))]
     return idx
 
-<<<<<<< HEAD
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
         description="Extract persistence bars, filtration(?) indices, and cycle representatives (when possible) from rawtext Ripser output"
@@ -423,5 +377,3 @@ if __name__=="__main__":
             verbose = args.verbose,
             write = args.write
             )
-=======
->>>>>>> refs/remotes/origin/main
