@@ -57,7 +57,7 @@ distlists=$(cat ${distlists_fpath})
 tags=""
 xtr_only=false
 
-if [ -f $tagfile ] && [[ "${samps}" -gt "0" ]]
+if [ -s $tagfile ] && [[ "${samps}" -gt "0" ]]
 then
 	echo "Matching cycles in ${samps} phoms in homology dimension ${match_homdim}. Pulling from ${distlists_fpath}."
 	printf '\n\n'
@@ -91,7 +91,7 @@ do
 
 		# Extract bar and tightrep indices from Ripser output
 		phomX_fpath="${outdir}/phom_X.txt"
-		if [ -f ${phomX_fpath/phom_X/bars_X} ]
+		if [ -s ${phomX_fpath/phom_X/bars_X} ]
 		then
 			echo "Skipping extraction. Bars output file already exists:"
 			ls ${phomX_fpath/phom_X/bars_X}
@@ -112,7 +112,7 @@ do
 		do
 			# name the (generic type of) output file for persistent homology data
 			phomY_fpath=${phomdir}"/phomY_${tag}.txt"
-			if ! [ -f ${phomY_fpath} ]
+			if ! [ -s ${phomY_fpath} ]
 			then
 				echo "Error! File does not exist:"
 				echo ${phomY_fpath}

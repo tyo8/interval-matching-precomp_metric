@@ -116,14 +116,14 @@ do
 		mkdir -p $phomdir
 
 		dX_fpath="${ldm_dir}/dX.ldm"
-		if ! [ -f ${dX_fpath} ]
+		if ! [ -s ${dX_fpath} ]
 		then
 			cp $distname $dX_fpath
 		fi
 		ndims=$(wc -l ${dX_fpath})	# to avoid "unset variable"-type error in cases that do not trigger earlier if statements
 
 		phomX_outpath="${outdir}/phom_X.txt"
-		if ${do_X_phom} & ! [ -f ${phomX_outpath} ]
+		if ${do_X_phom} & ! [ -s ${phomX_outpath} ]
 		then
 			# submit persistence job for dX
 			${ripser_scripter} -x ${dX_fpath} -f ${sbatch_fpath} -o ${phomX_outpath} -r ${ripser_rep_path} -i false -m 50 -d ${data_label}"_X" -D ${maxhomdim}
@@ -137,7 +137,7 @@ do
 			dXZ_fpath=${ldm_dir}"/dXZ_${tag}.ldm"
 			dYZ_fpath=${ldm_dir}"/dYZ_${tag}.ldm"
 			dZ_fpath=${ldm_dir}"/dZ_${tag}.ldm"
-			if ! test -f $dZ_fpath
+			if ! test -s $dZ_fpath
 			then
 				python ${make_ldm_images} -x ${dX_fpath} -t "${tag}" -z ${dZ_fpath} -y ${dY_fpath} -i ${dXZ_fpath} -j ${dYZ_fpath} || \
 					printf "Failed to parse arguments to make_ldm_images (likely unreadable tag): \n${tag}\n\n" continue
@@ -147,17 +147,17 @@ do
 			phom_outpath=${phomdir}"/phomXZ_"${tag}".txt"
 
 			# submit image persistence job for dXZ_(tag) and dYZ_(tag) --in style of `do_ripser_test` sbatch script
-			if ! test -f $phom_outpath
+			if ! test -s $phom_outpath
 			then
 				${ripser_scripter} -x ${dXZ_fpath} -z ${dZ_fpath} -f ${sbatch_fpath} -o ${phom_outpath} -m ${mem_gb} -d "${data_label}_XZ" -D ${maxhomdim}
 			fi
-			if ! test -f ${phom_outpath/phomXZ/phomYZ} 
+			if ! test -s ${phom_outpath/phomXZ/phomYZ} 
 			then
 				${ripser_scripter} -x ${dYZ_fpath} -z ${dZ_fpath} -f ${sbatch_fpath} -o ${phom_outpath/phomXZ/phomYZ} -m ${mem_gb} -d "${data_label}_YZ" -D ${maxhomdim}
 			fi
 
 			# submit persistence job for dY_(tag)
-			if ! test -f ${phom_outpath/phomXZ/phomY} 
+			if ! test -s ${phom_outpath/phomXZ/phomY} 
 			then
 				${ripser_scripter} -x ${dY_fpath} -f ${sbatch_fpath} -o ${phom_outpath/phomXZ/phomY} -r ${ripser_rep_path} -i false -d "${data_label}_Y" -D ${maxhomdim}
 			fi

@@ -65,7 +65,7 @@ bsdist_scripter="${base_dir}/src_bash/submit_bsdist_sbatch.sh"
 Xdistlists=$(cat ${Xdistlists_fpath})
 Ydistlists=$(cat ${Ydistlists_fpath})
 
-if [ -f $tagfile ]
+if [ -s $tagfile ]
 then
 	tags=$( cat ${tagfile} | head -$count )
 else
