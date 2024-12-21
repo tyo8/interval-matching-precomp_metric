@@ -73,6 +73,8 @@ Before running the code to perform cycle matching in this repository, one needs 
 ### About Python
 Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching: the 'match' directory defines a small cycle-matching python module.
 
+## ------------------------- UPDATE DEPENDENCIES DISUCSSION NEXT ------------------------- 
+
 ### Installing Python libraries
 The implementation of cycle matching requires the installation of Python on your computer. 
 
