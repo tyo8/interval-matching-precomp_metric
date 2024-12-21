@@ -7,26 +7,56 @@ This repository is forked from the code for the "Persistent Cohomological Cycle 
 ### Fork Contributions
 This fork of the original repository contributes new functionality and makes significant changes to the code structure.
 #### Functionality
-- generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see XX)
+- generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see XX.py)
 - additional utilities for cycle registration over data bootstraps (see `create_ldm_images.py` and `generate_tag_subindex.py` in `utils_match`)
-- integration of cycle matching with statistical permutation testing (see XX)
-- new modules for computation of Wasserstein variants (see XX)
-- new visualizations of aggregated statistcs and distributions of bootstrapped cycles (see XX)
-- new toy examples (and corresponding manipulations) for validation and exploration (see XX)
+- integration of cycle matching with statistical permutation testing (see XX.py)
+- new modules for computation of Wasserstein variants (see XX.py)
+- new visualizations of aggregated statistcs and distributions of bootstrapped cycles (see XX.py)
+- new toy examples (and corresponding manipulations) for validation and exploration (see XX.py)
 #### Structure
 - split cycle-matching implementation into modular structure (see `compute.py`, `extract.py`, and `match.py` in `utils_match`)
 - re-factored script-style code into Pythonic functinoal programming style
-- optimized for integration with high-performance computing (HPC) environment (including bash scripts with example calls)
+- optimized for integration with high-performance computing (HPC) environment (including bash scripts with example calls: see `src_bash` below)
 - re-organized directory structure
+
+### Structure of the repository
+
+This repository is organised as follows.
+#### `modified_ripser`: 
+Garcia-Redondo and Song's modifications to [Ripser](https://github.com/Ripser/ripser/tree/image-persistence-simple) [2] and [Riper-image](https://github.com/Ripser/ripser/tree/tight-representative-cycles) [3] needed to implement cycle matching. The changes constitute a single inserted line of code, which extracts a lexicographical refinement of indices correposding to simplices of persistence pairs. Garcia-Redondo and Song cede all credit for the files in these folders to the authors in [2] and [3]. 
+- ripser-image-persistence-simple: Line 474 is altered in `ripser-image-persistence-simple/ripser.cpp`. Forked from: [Riper-image](https://github.com/Ripser/ripser/tree/tight-representative-cycles)
+- ripser-tight-representative-cycles: Line 829 is altered in `ripseer-tight-representative-cycles/ripser.cpp`. Forked from: [Ripser](https://github.com/Ripser/ripser/tree/image-persistence-simple)
+#### `slurm_bash`: SLURM scripting at problem scale, including calls to Ripser
+- `bootstrap_distances.sh`:
+- `match_bootstraps.sh`:
+- `phom_bootstraps.sh`:
+- `prevwt_PDs.sh`:
+- `permtest_distances.sh`:
+- `prevalence.sh`:
+- `submit_bsdist_sbatch.sh`:
+- `submit_permdist_sbatch.sh`:
+- `submit_match_sbatch.sh`: 
+- `submit_ripser_sbatch.sh`:
+#### `utils_match`: Prepare Ripser input, perform post-Ripser interval matching, and compute immediate derivative values from match data
+- `compute.py`:
+- `create_ldm_images.py`:
+- `extract.py`:  
+- `generate_subindex.py`:  
+- `matching.py`:  
+- `prevalence.py`:
+#### `visualization`: Visualize persistence and cycle-match output data, define and calculate quantities of post-hoc analysis
+- `bootstrap_dists.py`:
+- `compare_topostats.py`:
+- `diagram_distances.py `: 
+- `distributional_summaries.py`: 
+- `prevwt_PD.py`:  
+- `toy_models.py`:
+
+## Preparations
 
 ### About C++
 
 C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
-
-### About Python
-Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching: the 'match' directory defines a small cycle-matching python module.
-
-## Preparations
 
 ### Compiling the C++ programmes
 Before running the code to perform cycle matching in this repository, one needs to compile the C++ files in the `modified ripser` folder. For that
@@ -36,6 +66,9 @@ Before running the code to perform cycle matching in this repository, one needs 
 	- *For MacOS*: see this [link](https://macappstore.org/gcc/) to install GCC.
 - The relevant Makefiles are included in the corresponding folders, so the compilation can be done by running the command line `make` in a terminal opened in the folder. 
 - The compiled files should be in the same directory than the python scripts/notebooks in which the cycle matching code is invoked.
+
+### About Python
+Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching: the 'match' directory defines a small cycle-matching python module.
 
 ### Installing Python libraries
 The implementation of cycle matching requires the installation of Python on your computer. 
@@ -48,20 +81,6 @@ For the notebook on `applications` one must also install the library
 - [scikit-image](https://scikit-image.org/)
 
 We recommend installing Python and these libraries through [Anaconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/).
-
-
-## Structure of the repository
-
-This repository is organised as follows.
-
-- `match`: folder containing the main scripts of code. 
-	- `utils_data.py`: a Python script with sampling functions on images, circles, and nii files for surfaces and volumes
-	- `utils_PH.py`: a Python script with functions to compute persistence, image-persistence and cycle matching
-		- **REMARK**: in this script you MUST specify your OS at the beginning of this script, if not, it will not work properly.
-	- `utils_plot.py`: a Python script for plotting functions
-- `modified ripser`: folder containing the files of the modified versions of Ripser [2] and Ripser-image [3] needed to implement cycle matching. All the credit for the files in these folders should go to the authors in [2] and [3]. The versions of the C++ code that we include here are exactly the same except for one line in the code, altered to extract the indices corresponding to the simplices of the persistence pairs after taking a lexicographic refinement. These are the line 474 in `ripser-image-persistence-simple/ripser.cpp` and line 829 in `ripseer-tight-representative-cycles/ripser.cpp`.
-	- `ripser-image-persistence-simple`: folder with the files for Ripser-image [3]. Go to the [original branch of the ripser repository](https://github.com/Ripser/ripser/tree/image-persistence-simple) for further detail.
-	- `ripser-tight-representative-cycles`: folder with the files for Ripser [2] with an additional feature that computes representatives for the persistence bars in the barcode, as explained in [4]. Go to the [original branch of the ripser repository](https://github.com/Ripser/ripser/tree/tight-representative-cycles) for further detail.
 
 ## Academic use
 
