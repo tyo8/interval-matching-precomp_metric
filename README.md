@@ -9,51 +9,55 @@ This fork of the original repository contributes new functionality and makes sig
 #### Functionality
 - generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see XX.py)
 - additional utilities for cycle registration over data bootstraps (see `create_ldm_images.py` and `generate_tag_subindex.py` in `utils_match`)
-- integration of cycle matching with statistical permutation testing (see XX.py)
-- new modules for computation of Wasserstein variants (see XX.py)
-- new visualizations of aggregated statistcs and distributions of bootstrapped cycles (see XX.py)
-- new toy examples (and corresponding manipulations) for validation and exploration (see XX.py)
+- integration of cycle matching with statistical permutation testing (see `comp_permtest_dists.py`, `bootstrap_dists.py`, `submit_bsdist/permdist_sbatch.sh`, and `permtest/bootstrap_distances.sh`)
+- new modules for computation of Wasserstein variants (see `diagram_distances.py`)
+- new visualizations of aggregated statistcs and distributions of bootstrapped cycles (see, e.g., `compare_topostats.py` and `distributional_summaries.py`)
+- new toy examples (and corresponding manipulations) for validation and exploration (see `toy_models.py`)
 #### Structure
 - split cycle-matching implementation into modular structure (see `compute.py`, `extract.py`, and `match.py` in `utils_match`)
 - re-factored script-style code into Pythonic functinoal programming style
-- optimized for integration with high-performance computing (HPC) environment (including bash scripts with example calls: see `src_bash` below)
+- optimized for integration with high-performance computing (HPC) environment (including bash scripts with example calls: see `submit_*.sh` scripts in `slurm_bash` below)
 - re-organized directory structure
 
 ### Structure of the repository
 
 This repository is organised as follows.
-#### `modified_ripser`: 
-Garcia-Redondo and Song's modifications to [Ripser](https://github.com/Ripser/ripser/tree/image-persistence-simple) [2] and [Riper-image](https://github.com/Ripser/ripser/tree/tight-representative-cycles) [3] needed to implement cycle matching. The changes constitute a single inserted line of code, which extracts a lexicographical refinement of indices correposding to simplices of persistence pairs. Garcia-Redondo and Song cede all credit for the files in these folders to the authors in [2] and [3]. 
-- `ripser-image-persistence-simple`: Line 474 is altered in `ripser-image-persistence-simple/ripser.cpp`. Forked from: [Riper-image](https://github.com/Ripser/ripser/tree/tight-representative-cycles)
+#### `modified_ripser`
+Garcia-Redondo and Song's modifications to [Ripser](https://github.com/Ripser/ripser/tree/image-persistence-simple) [2] and [Ripser-image](https://github.com/Ripser/ripser/tree/tight-representative-cycles) [3] needed to implement cycle matching. The changes constitute a single inserted line of code, which extracts a lexicographical refinement of indices correposding to simplices of persistence pairs. Garcia-Redondo and Song cede all credit for the files in these folders to the authors in [2] and [3]. 
+- `ripser-image-persistence-simple`: Line 474 is altered in `ripser-image-persistence-simple/ripser.cpp`. Forked from: [Ripser-image](https://github.com/Ripser/ripser/tree/tight-representative-cycles)
 - `ripser-tight-representative-cycles`: Line 829 is altered in `ripseer-tight-representative-cycles/ripser.cpp`. Forked from: [Ripser](https://github.com/Ripser/ripser/tree/image-persistence-simple)
-#### `slurm_bash`: 
-SLURM scripting at problem scale, including calls to Ripser.
-- `bootstrap_distances.sh`:
-- `match_bootstraps.sh`:
-- `phom_bootstraps.sh`:
-- `prevwt_PDs.sh`:
-- `permtest_distances.sh`:
-- `prevalence.sh`:
-- `submit_bsdist_sbatch.sh`:
-- `submit_permdist_sbatch.sh`:
-- `submit_match_sbatch.sh`: 
-- `submit_ripser_sbatch.sh`:
-#### `utils_match`: 
+#### `utils_match`
 Prepare Ripser input, perform post-Ripser interval matching, and compute immediate derivative values from match data.
-- `compute.py`:
-- `create_ldm_images.py`:
-- `extract.py`:  
-- `generate_subindex.py`:  
-- `matching.py`:  
-- `prevalence.py`:
-#### `visualization`: 
+- `compute.py`: Jaccard index and (currently deprecated) Ripser calls
+- `create_ldm_images.py`: build and write out Ripser inputs
+- `extract.py`: collect and reformat persistence data from Ripser output
+- `generate_subindex.py`: generate and bit-encode bootstrapping indices
+- `matching.py`: perform cycle-matching operations
+- `prevalence.py`: define and read/write prevalence scoring
+#### `visualization`
 Visualize persistence and cycle-match output data, define and calculate quantities of post-hoc analysis.
-- `bootstrap_dists.py`:
-- `compare_topostats.py`:
-- `diagram_distances.py `: 
-- `distributional_summaries.py`: 
-- `prevwt_PD.py`:  
-- `toy_models.py`:
+- `bootstrap_dists.py`: computes distance between diagrams each containing bootstrap-matched cycles
+- `compare_topostats.py`: compares distributions of topological features
+- `comp_permtest_dists.py`: compute distribution of distances between data and its null-permuted counterparts
+- `diagram_distances.py `: define and compute distance metrics (i.e., Wasserstein variants) between persitence diagrams
+- `distributional_summaries.py`: create graphical summaries of topological features
+- `prevwt_PD.py`: prevalence-weighted persistence diagram
+- `toy_models.py`: module for creation of several toy-model validation spaces (concentric circles, S1 wegde S2 wedge S1, S2 with a diameter, and the torus)
+#### `slurm_bash`
+SLURM scripting at problem scale, including calls to Ripser.
+- `bootstrap_distances.sh`: distributes computation of distances between diagrams with matched cycles
+- `calc_dists.sh`: distributes computation of metric (Gram) matrices over dataset(s)
+- `calc_dists_w_perms.sh`: distributes computation of metric (Gram) matrices over permuted dataset(s)
+- `match_bootstraps.sh`: distributes cycle-matching computation
+- `phom_bootstraps.sh`: distrubtes calls to Ripser/Ripser-image
+- `prevwt_PDs.sh`: distributes visualization for prevalence-weighted persistence diagrams
+- `permtest_distances.sh`: distributes computation of diagram distances between permuted-null persistence diagrams
+- `prevalence.sh`: distributes computation of prevalence (i.e., cycle-match quality) information
+- `submit_bsdist_sbatch.sh`: SLURM-submits computation of distance between diagrams of matched cycles
+- `submit_distmtx_sbatch.sh`: SLURM-submits computation of metric (Gram) matrix
+- `submit_permdist_sbatch.sh`: SLURM-submits computation of distances between diagrams and their null-permutation generated counterparts
+- `submit_match_sbatch.sh`: SLURM-submits computation of matched cycles
+- `submit_ripser_sbatch.sh`: SLURM-submits Ripser (or Ripser-image) call
 
 ## Preparations
 
