@@ -25,7 +25,7 @@ Ripser, but augmented with a line of code extracting its inbuilt lexicographical
 ### Fork Contributions
 This fork of [interval-matching](https://github.com/inesgare/interval-matching) contributes new functionality and makes significant changes to the code structure.
 #### Functionality
-- generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see XX.py)
+- generalized to accept arbitrary (pre-computed) distance metrics in the bootstrapping case (see `create_ldm_images.py`)
 - additional utilities for cycle registration over data bootstraps (see `create_ldm_images.py` and `generate_tag_subindex.py` in `utils_match`)
 - integration of cycle matching with statistical permutation testing (see `comp_permtest_dists.py`, `bootstrap_dists.py`, `submit_(bsdist|permdist)_sbatch.sh`, and `(permtest|bootstrap)_distances.sh` in `visualization`)
 - new modules for computation of Wasserstein variants (see `diagram_distances.py` in `visualization`)

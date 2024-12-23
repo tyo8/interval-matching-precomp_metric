@@ -103,7 +103,7 @@ if __name__=="__main__":
         "-x", "--dX_fname", type=str, help="path to distance matrix"
     )
     parser.add_argument(
-        "-t", "--tag", type=str, help="subsampling bit array (as ASCII string)"
+        "-t", "--tag", type=str, help="bit-encoded subsampling array (as ASCII string)"
     )
     parser.add_argument(
         "-z", "--dZ_fname", type=str, help="outpath to image distance matrix"
