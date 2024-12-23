@@ -1,4 +1,4 @@
-# Persistent Cohomological Cycle Matching
+# Persistent Cohomological Cycle Bootstrapping
 
 ## Outline 
 
