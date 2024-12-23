@@ -74,7 +74,7 @@ Note that the [OpenCV](https://pypi.org/project/opencv-python/) package is an op
 
 ## Academic use
 
-This code is available and is fully adaptable for individual user customization. If you use these methods, please cite as the following:
+This code is available and is fully adaptable for individual user customization. If you use these methods, please cite the following works:
 
 ```tex
 @misc{garcia-redondo_fast_2022,
