@@ -4,7 +4,7 @@
 
 This repository is forked from [interval-matching](https://github.com/inesgare/interval-matching), the code for the "Persistent Cohomological Cycle Matching" approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong), performing cycle matching [1] while incorporating the computational advantages given by Ripser [2] and Ripser-image [3].
 
-This fork is adapted to perform the analysis in [Comparing representations of high-dimensional data with persistent homology: a case study in neuroimaging](https://arxiv.org/abs/2306.13802) and is also included as a submodule of the corresponding [brain_representations](https://github.com/tyo8/brain_representations/tree/main) repository. 
+This fork is adapted to perform the analysis in [5] and is also included as a submodule of the corresponding [brain_representations](https://github.com/tyo8/brain_representations/tree/main) repository. 
 
 ### Structure of the repository
 
@@ -112,3 +112,5 @@ This code is available and is fully adaptable for individual user customization.
 [3] Bauer, Ulrich, and Maximilian Schmahl. 2022. ‘Efficient Computation of Image Persistence’. ArXiv:2201.04170 [Cs, Math], January. http://arxiv.org/abs/2201.04170.
 
 [4] Čufar, Matija, and Žiga Virk. 2021. ‘Fast Computation of Persistent Homology Representatives with Involuted Persistent Homology’. ArXiv:2105.03629 [Math], May. http://arxiv.org/abs/2105.03629.
+
+[5] T. Easley, K. Freese, E. Munch, and J. Bijsterbosch, “Comparing representations of high-dimensional data with persistent homology: a case study in neuroimaging,” Nov. 23, 2023, arXiv: arXiv:2306.13802. doi: [10.48550/arXiv.2306.13802](https://arxiv.org/abs/2306.13802).
