@@ -3,7 +3,7 @@
 set -o nounset
 
 # script directory
-base_dir="/ceph/chpc/shared/janine_bijsterbosch_group/tyoeasley/brain_representations/phom_analysis/full-scale-expmt/within-PROFUMO"
+base_dir="interval-matching_bootstrap"
 
 # file containing a list of BR (modality/dimension, feature) specifications.
 # see comments below (lines 54-56) for some context on formatting expectations.

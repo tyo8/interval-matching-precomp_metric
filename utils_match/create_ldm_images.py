@@ -68,7 +68,7 @@ def _std_phom_input(X=[], Y=[], pairwise_Z=[], nb_X=[]):
         assert np.any(Y), "If pairwise_Z is not provided, point clouds X and Y must both be given"
         Z = np.vstack((X,Y))
         nb_X = len(X)
-        pairwise_Z = np.sqrt( np.sum( (Z[:, None, :] - Z[None, :, :])**2, axis=-1) )
+        pairwise_Z = np.sqrt( np.sum( (Z[:, None, :] - Z[None, :, :])**2, axis=-1) )    # computes pairwise Euclidean 2-norm on np.vstack((X,Y))
     else:
         assert nb_X, "If pairwise_Z is given and X and Y are not, nb_X must be specified."
 
@@ -103,7 +103,7 @@ if __name__=="__main__":
         "-x", "--dX_fname", type=str, help="path to distance matrix"
     )
     parser.add_argument(
-        "-t", "--tag", type=str, help="subsampling bit array (as ASCII)"
+        "-t", "--tag", type=str, help="subsampling bit array (as ASCII string)"
     )
     parser.add_argument(
         "-z", "--dZ_fname", type=str, help="outpath to image distance matrix"

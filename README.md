@@ -29,7 +29,7 @@ Garcia-Redondo and Song's modifications to [Ripser](https://github.com/Ripser/ri
 #### `utils_match`
 Prepare Ripser input, perform post-Ripser interval matching, and compute immediate derivative values from match data.
 - `compute.py`: Jaccard index and (currently deprecated) Ripser calls
-- `create_ldm_images.py`: build and write out Ripser inputs
+- `create_ldm_images.py`: formats and write out Ripser inputs. Generalizes *bootstrap* cycle-matching to arbitrary precomputed metrics by building all Ripser-image inputs from the original metric input; only valid in bootstrapping case (see function `_subsamp_dZ` in this module).
 - `extract.py`: collect and reformat persistence data from Ripser output
 - `generate_subindex.py`: generate and bit-encode bootstrapping indices
 - `matching.py`: perform cycle-matching operations
@@ -42,7 +42,7 @@ Visualize persistence and cycle-match output data, define and calculate quantiti
 - `diagram_distances.py `: define and compute distance metrics (i.e., Wasserstein variants) between persitence diagrams
 - `distributional_summaries.py`: create graphical summaries of topological features
 - `prevwt_PD.py`: prevalence-weighted persistence diagram
-- `toy_models.py`: module for creation of several toy-model validation spaces (concentric circles, S1 wegde S2 wedge S1, S2 with a diameter, and the torus)
+- `toy_models.py`: module for creation of several toy-model validation spaces (concentric circles, S<sup>1</sup> wegde S<sup>2</sup> wedge S<sup>1</sup>, S<sup>2</sup> with a diameter, and the torus T<sup>2</sup>)
 #### `slurm_bash`
 SLURM scripting at problem scale, including calls to Ripser.
 - `bootstrap_distances.sh`: distributes computation of distances between diagrams with matched cycles
@@ -61,11 +61,13 @@ SLURM scripting at problem scale, including calls to Ripser.
 
 ## Preparations
 
-### About C++
+### C++
+
+#### About C++
 
 C++ is a general-purpose programming language which has object-oriented, generic, and functional features in addition to facilities for low-level memory manipulation. It is the language chosen for the codes Ripser [2] and Ripser-image [3]. The C++ files for those, with a slight modification needed to implement cycle matching, can be found in the folder `modified ripser`. 
 
-### Compiling the C++ programmes
+#### Compiling the C++ programmes
 Before running the code to perform cycle matching in this repository, one needs to compile the C++ files in the `modified ripser` folder. For that
 - Install a C++ compiler in your computer. We recommend getting the compiler [GCC](https://gcc.gnu.org/).
 	- *For Linux*: the default Ubuntu repositories contain a meta-package named build-essential that contains the GCC compiler and a lot of libraries and other utilities required for compiling software. You only need to run `sudo apt install build-essential` in a terminal to install it.
@@ -74,26 +76,29 @@ Before running the code to perform cycle matching in this repository, one needs 
 - The relevant Makefiles are included in the corresponding folders, so the compilation can be done by running the command line `make` in a terminal opened in the folder. 
 - The compiled files should be in the same directory than the python scripts/notebooks in which the cycle matching code is invoked.
 
-### About Python
-Python is a high-level, general-purpose programming language. It is the language we use for our code for cycle matching: the 'match' directory defines a small cycle-matching python module.
+### Python
 
-## ------------------------- UPDATE DEPENDENCIES DISUCSSION NEXT ------------------------- 
+#### Python Dependencies
+This repository uses a few packages beyond python built-ins, and most of these are only necessary for post-hoc analysis code in `visualization`. We recommend managing this package's environment and dependencies through [Anaconda/miniconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/). Dependencies are listed below and grouped by module. 
 
-### Installing Python libraries
-The implementation of cycle matching requires the installation of Python on your computer. 
-
-Additionally, the Python code in `match` requires the installation of the following libraries (follow the corresponding link to find the documentation and installation guidelines):
+`utils_match`
 - [numpy](https://numpy.org/)
+	
+`visualization`
+- [POT (python optimal transport library)](https://pythonot.github.io/index.html)
+- [OpenCV](https://pypi.org/project/opencv-python/) {optional alternative to POT as Wasserstein backend}
+- [numpy](https://numpy.org/)
+- [scipy](https://scipy.org/)
+- [pandas](https://pandas.pydata.org/)
+- [seaborn](https://seaborn.pydata.org/)
 - [matplotlib](https://matplotlib.org/stable/index.html)
 
-For the notebook on `applications` one must also install the library
-- [scikit-image](https://scikit-image.org/)
 
-We recommend installing Python and these libraries through [Anaconda](https://www.anaconda.com/) and [conda-forge](https://conda-forge.org/).
+Note that the [OpenCV](https://pypi.org/project/opencv-python/) package is an optional alternative to [POT](https://pythonot.github.io/index.html) as the backend for Wasserstein computations; the code importing this package can be disabled without affecting overall functionality. In our problem regime, we found [POT](https://pythonot.github.io/index.html) to have performance advantages over [OpenCV](https://pypi.org/project/opencv-python/), hence its status as the default option.
 
 ## Academic use
 
-This code is available and is fully adaptable for individual user customization. If you use the our methods, please cite as the following:
+This code is available and is fully adaptable for individual user customization. If you use these methods, please cite as the following:
 
 ```tex
 @misc{garcia-redondo_fast_2022,
@@ -106,6 +111,18 @@ This code is available and is fully adaptable for individual user customization.
 	year = {2022},
 	note = {arXiv:2209.15446 [math, stat]},
 	keywords = {Mathematics - Algebraic Topology, Statistics - Machine Learning},
+}
+```
+
+```tex
+@misc{easley2023comparingrepresentationshighdimensionaldata,
+      title={Comparing representations of high-dimensional data with persistent homology: a case study in neuroimaging}, 
+      author={Ty Easley and Kevin Freese and Elizabeth Munch and Janine Bijsterbosch},
+      year={2023},
+      eprint={2306.13802},
+      archivePrefix={arXiv},
+      primaryClass={cs.CG},
+      url={https://arxiv.org/abs/2306.13802}, 
 }
 ```
 

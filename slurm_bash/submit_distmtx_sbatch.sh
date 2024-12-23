@@ -3,7 +3,7 @@
 set -o nounset
 
 # script directory
-base_dir="/ceph/chpc/shared/janine_bijsterbosch_group/tyoeasley/brain_representations/phom_analysis/null_testing/within_PROFUMO"
+base_dir="interval-matching_bootstrap"
 
 modality=PROFUMO
 feature=Amps
@@ -58,7 +58,7 @@ subbase_dir="${base_dir}/${modality}_${feature}"
 methods_fpath=${subbase_dir}"/methods.csv"
 methods=$(cat ${methods_fpath})
 # path to source file
-pysrc_fpath="/ceph/chpc/shared/janine_bijsterbosch_group/tyoeasley/brain_representations/src_py/calculate/comp_sim_mtx.py"
+pysrc_fpath="<path_to_Gram_matrix_computation_script>"
 
 if [ "${feature}" = "Maps" ]
 then
