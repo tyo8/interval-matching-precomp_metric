@@ -4,6 +4,8 @@
 
 This repository is forked from [interval-matching](https://github.com/inesgare/interval-matching), the code for the "Persistent Cohomological Cycle Matching" approach developed in the paper ["Fast Topological Signal Identification and Persistent Cohomological Cycle Matching" (García-Redondo, Monod, and Song 2022)](https://arxiv.org/abs/2209.15446). The original codes were co-written by [Inés García-Redondo](https://sites.google.com/view/ines-garcia-redondo/home) and [Anna Song](https://sites.google.com/view/annasong), performing cycle matching [1] while incorporating the computational advantages given by Ripser [2] and Ripser-image [3].
 
+This fork is adapted to perform the analysis in [Comparing representations of high-dimensional data with persistent homology: a case study in neuroimaging](https://arxiv.org/abs/2306.13802) and is also included as a submodule of the [brain_representations](https://github.com/tyo8/brain_representations/tree/main) repository. 
+
 ### Structure of the repository
 
 This repository is organised as follows. Each module listed below also has its own README(s) with more detailed information in corresponding directory.
