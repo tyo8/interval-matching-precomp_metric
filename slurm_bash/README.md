@@ -5,6 +5,7 @@ Bash shell code to distribute topological bootstrapping workflow to a job schedu
 - `bootstrap_distances.sh`: distributes computation of distances between diagrams with matched cycles
 - `calc_dists.sh`: distributes computation of metric (Gram) matrices over dataset(s)
 - `calc_dists_w_perms.sh`: distributes computation of metric (Gram) matrices over permuted dataset(s)
+- `collate_matches.sh`: distributes aggregation of cycle-matched data into compact dictionary structure
 - `match_bootstraps.sh`: distributes cycle-matching computation
 - `phom_bootstraps.sh`: distributes calls to Ripser/Ripser-image
 - `prevwt_PDs.sh`: distributes visualization for prevalence-weighted persistence diagrams
