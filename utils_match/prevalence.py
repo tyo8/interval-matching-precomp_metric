@@ -1,4 +1,5 @@
 import ast
+import warnings
 import argparse
 import numpy as np
 
@@ -11,7 +12,7 @@ def summarize_cycle_registration(verbose_match_list):
     print(f"affinity array has shape {affinity_array.shape}")
 
     if (affinity_array < 0).any():
-        raise Warning("All affinity scores should be nonnegative!! Affinity array (feature x bootstrap) is shown below:")
+        warnings.warn("All affinity scores should be nonnegative!! Affinity array (feature x bootstrap) is shown below:")
         print(affinity_array)
         print("")
 

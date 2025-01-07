@@ -1,6 +1,7 @@
 import re
 import os
 import sys
+import warnings
 import argparse
 import numpy as np
 
@@ -296,7 +297,7 @@ def _get_bar(line_out, line_num):
         sci_note_pattern=r"\b-?[1-9](?:\.\d+)?[Ee][-+]?\d+\b"
         x = re.findall(sci_note_pattern, line_out)     # check for scientific notation
         if not x :
-            raise Warning(f"no intervals found in output line number {line_num}: \'{line_out}\'")
+            warnings.warn(f"no intervals found in output line number {line_num}: \'{line_out}\'")
             bar = []
         else:
             if len(x) > 1:
